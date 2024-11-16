@@ -100,13 +100,10 @@ int main(int argc, char* argv[])
         sum_guided[i] /= reps * Q;
     }
 
-    printf("Sum sequence (0, 1, ... , NMAX-2, NMAX-1): %f %f ... %f %f\n", sum_sequence[0], sum_sequence[1], sum_sequence[NMAX - 2], sum_sequence[NMAX - 2]);
-    printf("Sum static (0, 1, ... , NMAX-2, NMAX-1): %f %f ... %f %f\n", sum_static[0], sum_static[1], sum_static[NMAX - 2], sum_static[NMAX - 2]);
-    printf("Sum dynamic (0, 1, ... , NMAX-2, NMAX-1): %f %f ... %f %f\n", sum_dynamic[0], sum_dynamic[1], sum_dynamic[NMAX - 2], sum_dynamic[NMAX - 2]);
-    printf("Sum guided (0, 1, ... , NMAX-2, NMAX-1): %f %f ... %f %f\n", sum_guided[0], sum_guided[1], sum_guided[NMAX - 2], sum_guided[NMAX - 2]);
-
-
-
+    printf("Sum sequence (0, 1, ... , NMAX-2, NMAX-1): %.1f %.1f ... %.1f %.1f\n", sum_sequence[0], sum_sequence[1], sum_sequence[NMAX - 2], sum_sequence[NMAX - 1]);
+    printf("Sum static (0, 1, ... , NMAX-2, NMAX-1): %.1f %.1f ... %.1f %.1f\n", sum_static[0], sum_static[1], sum_static[NMAX - 2], sum_static[NMAX - 1]);
+    printf("Sum dynamic (0, 1, ... , NMAX-2, NMAX-1): %.1f %.1f ... %.1f %.1f\n", sum_dynamic[0], sum_dynamic[1], sum_dynamic[NMAX - 2], sum_dynamic[NMAX - 1]);
+    printf("Sum guided (0, 1, ... , NMAX-2, NMAX-1): %.1f %.1f ... %.1f %.1f\n", sum_guided[0], sum_guided[1], sum_guided[NMAX - 2], sum_guided[NMAX - 1]);
 
     printf("\nAverage time:\n");
     printf("Initialization parallel area: %f seconds\n", t_p);
