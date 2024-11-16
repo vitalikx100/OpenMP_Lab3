@@ -9,7 +9,7 @@
 
 int main(int argc, char* argv[])
 {
-	printf("Variant 19: double, 7, 3 200 000, [4, 8, 16], 28\n");
+    printf("Variant 19: double, 7, 3 200 000, [4, 8, 16], 28\n");
 
     omp_set_num_threads(16);
 
@@ -61,17 +61,17 @@ int main(int argc, char* argv[])
 #pragma omp parallel
         {
             start_time = omp_get_wtime();
-    #pragma omp for schedule(static, CHUNK) private(i, q)
+#pragma omp for schedule(static, CHUNK) private(i, q)
             for (i = 0; i < NMAX; i++) {
                 for (q = 0; q < Q; q++) {
                     sum_static[i] += mass_1[i] + mass_2[i] + mass_3[i] + mass_4[i] + mass_5[i] + mass_6[i] + mass_7[i];
                 }
-            }              
+            }
             t_st += omp_get_wtime() - start_time;
 
 
             start_time = omp_get_wtime();
-    #pragma omp for schedule(dynamic, CHUNK) private(i, q)
+#pragma omp for schedule(dynamic, CHUNK) private(i, q)
             for (i = 0; i < NMAX; i++) {
                 for (q = 0; q < Q; q++) {
                     sum_dynamic[i] += mass_1[i] + mass_2[i] + mass_3[i] + mass_4[i] + mass_5[i] + mass_6[i] + mass_7[i];
@@ -81,24 +81,32 @@ int main(int argc, char* argv[])
 
 
             start_time = omp_get_wtime();
-    #pragma omp for schedule(guided, CHUNK) private(i, q)
+#pragma omp for schedule(guided, CHUNK) private(i, q)
             for (i = 0; i < NMAX; i++) {
                 for (q = 0; q < Q; q++) {
                     sum_guided[i] += mass_1[i] + mass_2[i] + mass_3[i] + mass_4[i] + mass_5[i] + mass_6[i] + mass_7[i];
                 }
             }
             t_g += omp_get_wtime() - start_time;
-        } 
+        }
     }
 
-    t_p /= 20; t_s /= 20; t_st /= 20; t_d /= 20; t_g /= 20;
+    t_p /= reps; t_s /= reps; t_st /= reps; t_d /= reps; t_g /= reps;
 
     for (i = 0; i < NMAX; i++) {
-        sum_sequence[i] /= 20 * Q;
-        sum_static[i] /= 20 * Q;
-        sum_dynamic[i] /= 20 * Q;
-        sum_guided[i] /= 20 * Q;
+        sum_sequence[i] /= reps * Q;
+        sum_static[i] /= reps * Q;
+        sum_dynamic[i] /= reps * Q;
+        sum_guided[i] /= reps * Q;
     }
+
+    printf("Sum sequence (0, 1, ... , NMAX-2, NMAX-1): %f %f ... %f %f\n", sum_sequence[0], sum_sequence[1], sum_sequence[NMAX - 2], sum_sequence[NMAX - 2]);
+    printf("Sum static (0, 1, ... , NMAX-2, NMAX-1): %f %f ... %f %f\n", sum_static[0], sum_static[1], sum_static[NMAX - 2], sum_static[NMAX - 2]);
+    printf("Sum dynamic (0, 1, ... , NMAX-2, NMAX-1): %f %f ... %f %f\n", sum_dynamic[0], sum_dynamic[1], sum_dynamic[NMAX - 2], sum_dynamic[NMAX - 2]);
+    printf("Sum guided (0, 1, ... , NMAX-2, NMAX-1): %f %f ... %f %f\n", sum_guided[0], sum_guided[1], sum_guided[NMAX - 2], sum_guided[NMAX - 2]);
+
+
+
 
     printf("\nAverage time:\n");
     printf("Initialization parallel area: %f seconds\n", t_p);
